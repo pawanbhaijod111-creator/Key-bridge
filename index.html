@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Access Key Generator</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { background: #161b22; padding: 28px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); width: 100%; max-width: 380px; text-align: center; border: 1px solid #30363d; }
+        h2 { font-size: 22px; color: #58a6ff; margin-bottom: 8px; font-weight: 700; }
+        p { font-size: 13px; color: #8b949e; margin-bottom: 18px; }
+        .hwid-badge { display: inline-block; background: #21262d; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #79c0ff; border: 1px solid #30363d; margin-bottom: 15px; word-break: break-all; }
+        .timer-box { font-size: 40px; font-weight: bold; color: #ff7b72; margin: 15px 0; background: #0d1117; padding: 12px; border-radius: 12px; border: 1px solid #21262d; }
+        .key-container { display: none; margin-top: 15px; background: #0d1117; padding: 15px; border-radius: 10px; border: 1px dashed #3fb950; }
+        .key-text { font-size: 20px; font-weight: bold; color: #3fb950; letter-spacing: 1.5px; margin: 8px 0; word-break: break-all; }
+        .btn { background: #238636; color: #ffffff; font-weight: bold; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 14px; margin-top: 8px; transition: 0.2s; }
+        .btn:hover { background: #2ea043; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Jerry Mods VIP Access</h2>
+    <div class="hwid-badge" id="hwid-display">Device ID Fetching...</div>
+    <p id="status-msg">Access verify ho raha hai, kripya 7 seconds wait karein...</p>
+
+    <div class="timer-box" id="timer">7</div>
+
+    <div class="key-container" id="key-box">
+        <p style="color: #8b949e; font-size: 12px;">Aapka Key Generate Ho Gaya Hai:</p>
+        <div class="key-text" id="generated-key">XXXX-XXXX</div>
+        <button class="btn" onclick="copyKey()">COPY KEY & LOGIN</button>
+    </div>
+</div>
+
+<script>
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBUTiQX7EMcdophHmvlr8S0gVasfNc-uR8",
+        authDomain: "jerry-mods.firebaseapp.com",
+        databaseURL: "https://jerry-mods-default-rtdb.firebaseio.com",
+        projectId: "jerry-mods",
+        storageBucket: "jerry-mods.firebasestorage.app",
+        appId: "1:536466521426:android:b288daf2e24b6eb5900e8b"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Fetch HWID from URL (?hwid=DEVICE_ID)
+    const urlParams = new URLSearchParams(window.location.search);
+    const hwid = urlParams.get('hwid') || "DEMO_HWID_123";
+    document.getElementById('hwid-display').innerText = "HWID: " + hwid;
+
+    let timeLeft = 7;
+    const timerElement = document.getElementById("timer");
+    const keyBox = document.getElementById("key-box");
+    const statusMsg = document.getElementById("status-msg");
+    const generatedKeyElement = document.getElementById("generated-key");
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerElement.style.display = "none";
+            
+            // Generate Random Key
+            const randomKey = "JM-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+            
+            // Save to Firebase (Database Path: Users/HWID)
+            database.ref('Users/' + hwid).set({
+                status: "active",
+                key: randomKey,
+                activatedAt: new Date().toLocaleString()
+            }).then(() => {
+                statusMsg.innerText = "Activation Successful! Is key ko copy karke app mein dalo.";
+                generatedKeyElement.innerText = randomKey;
+                keyBox.style.display = "block";
+            }).catch(err => {
+                statusMsg.innerText = "Database Error! Kripya Firebase rules check karein.";
+                console.error(err);
+            });
+        }
+    }, 1000);
+
+    function copyKey() {
+        const keyText = document.getElementById("generated-key").innerText;
+        navigator.clipboard.writeText(keyText);
+        alert("Key Copied: " + keyText);
+    }
+</script>
+
+</body>
+</html>
