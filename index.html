@@ -101,21 +101,31 @@
             const generatedUser = generateRandomString("JM_", 5);
             const generatedKey = generateRandomString("KEY_", 8);
 
-            // Database Registration (HWID Bound)
-            database.ref('Users/' + hwid).set({
+            const userData = {
                 username: generatedUser,
                 password: generatedKey,
+                user: generatedUser,
+                pass: generatedKey,
                 key: generatedKey,
                 hwid: hwid,
                 status: "active",
-                device_limit: 1
-            }).then(() => {
+                device_limit: 1,
+                startDate: new Date().toISOString()
+            };
+
+            // Save across all common Panel paths
+            const updates = {};
+            updates['Users/' + hwid] = userData;
+            updates['Users/' + generatedUser] = userData;
+            updates['Keys/' + generatedUser] = userData;
+
+            database.ref().update(updates).then(() => {
                 statusMsg.innerText = "Access Granted! Credentials Active.";
                 document.getElementById('res-user').innerText = generatedUser;
                 document.getElementById('res-key').innerText = generatedKey;
                 credBox.style.display = "block";
             }).catch((error) => {
-                statusMsg.innerText = "Error: " + error.message;
+                statusMsg.innerText = "Database Error: " + error.message;
             });
         }
     }, 1000);
