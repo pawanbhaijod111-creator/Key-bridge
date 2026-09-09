@@ -3,139 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Jerry Mods</title>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <title>Just a moment...</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #090d16; color: #e6edf3; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .card { background: #111726; padding: 32px 24px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); width: 100%; max-width: 400px; text-align: center; border: 1px solid #1f293d; }
-        .brand-title { font-size: 24px; font-weight: 800; color: #58a6ff; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .subtitle { font-size: 13px; color: #8b949e; margin-bottom: 20px; font-weight: 500; }
-        .badge-box { display: inline-flex; align-items: center; background: #161f30; padding: 8px 14px; border-radius: 30px; font-size: 12px; color: #79c0ff; border: 1px solid #28354d; margin-bottom: 20px; font-family: monospace; word-break: break-all; }
-        .timer-container { background: #0b0f19; padding: 20px; border-radius: 14px; border: 1px solid #1f2a3e; margin-bottom: 15px; }
-        .timer-val { font-size: 42px; font-weight: 900; color: #ff7b72; line-height: 1; }
-        .timer-label { font-size: 11px; text-transform: uppercase; color: #8b949e; margin-top: 6px; letter-spacing: 1px; }
-        .credentials-box { display: none; background: #0b0f19; padding: 18px; border-radius: 14px; border: 1px solid #238636; text-align: left; margin-top: 15px; }
-        .field-group { margin-bottom: 14px; }
-        .field-label { font-size: 11px; text-transform: uppercase; color: #8b949e; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 4px; }
-        .field-value { color: #3fb950; font-weight: bold; font-family: monospace; font-size: 18px; word-break: break-all; }
-        .btn { display: block; width: 100%; padding: 14px; background: #238636; color: #ffffff; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s ease; letter-spacing: 0.5px; margin-top: 10px; }
-        .btn:hover { background: #2ea043; }
-        .btn:active { transform: scale(0.98); }
-        .status-text { font-size: 13px; color: #a5d6ff; margin-bottom: 15px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        body { background-color: #111111; color: #d9d9d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .cf-container { background: #1a1a1a; border: 1px solid #2e2e2e; border-radius: 12px; padding: 32px 28px; width: 100%; max-width: 420px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .cf-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; border-bottom: 1px solid #2e2e2e; padding-bottom: 16px; }
+        .cf-title { font-size: 18px; font-weight: 600; color: #ffffff; }
+        .cf-brand { font-size: 12px; color: #f6821f; font-weight: 700; letter-spacing: 0.5px; }
+        .cf-box { background: #222222; border: 1px solid #333333; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .checkbox-spinner { width: 22px; height: 22px; border: 3px solid #333; border-top: 3px solid #f6821f; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .cf-text { font-size: 14px; color: #e0e0e0; font-weight: 500; }
+        .cf-footer { font-size: 11px; color: #666666; text-align: center; line-height: 1.5; }
+        .cf-footer span { color: #888888; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="brand-title">WELCOME TO JERRY MODS</div>
-    <div class="subtitle">Secure VIP Key & Account Generation</div>
-
-    <div class="badge-box" id="hwid-display">DEVICE HWID: FETCHING...</div>
-    
-    <div id="status-msg" class="status-text">Generating your access credentials, please wait...</div>
-
-    <div class="timer-container" id="timer-wrapper">
-        <div class="timer-val" id="timer">7</div>
-        <div class="timer-label">Seconds Remaining</div>
+<div class="cf-container">
+    <div class="cf-header">
+        <div class="cf-title">Security Check</div>
+        <div class="cf-brand">CLOUDFLARE</div>
     </div>
 
-    <div class="credentials-box" id="cred-box">
-        <div class="field-group">
-            <div class="field-label">USERNAME</div>
-            <div class="field-value" id="res-user">---</div>
-        </div>
-        <div class="field-group">
-            <div class="field-label">KEY / PASSWORD</div>
-            <div class="field-value" id="res-key">---</div>
-        </div>
-        <button class="btn" onclick="copyCredentials()">COPY ACCESS DETAILS</button>
+    <div class="cf-box">
+        <div class="checkbox-spinner"></div>
+        <div class="cf-text">Verifying your browser & device...</div>
+    </div>
+
+    <div class="cf-footer">
+        DDoS protection by <span>Cloudflare</span><br>
+        Ray ID: <span id="ray-id">8f12a9b3c4d5e6</span>
     </div>
 </div>
 
 <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyBUTiQX7EMcdophHmvlr8S0gVasfNc-uR8",
-        authDomain: "jerry-mods.firebaseapp.com",
-        databaseURL: "https://jerry-mods-default-rtdb.firebaseio.com",
-        projectId: "jerry-mods",
-        storageBucket: "jerry-mods.firebasestorage.app",
-        appId: "1:536466521426:android:b288daf2e24b6eb5900e8b"
-    };
+    // Earnlinks Base Link Updated
+    const EARNLINKS_URL = "https://earnlinks.in/Metadata";
 
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    // Destination target page after shortener completion
+    const DESTINATION_PAGE = "https://pawanbhaijod111-creator.github.io/Key-bridge/access.html";
 
-    // Get Device HWID from URL
+    // HWID Extraction
     const urlParams = new URLSearchParams(window.location.search);
-    const hwid = urlParams.get('hwid') || "DEMO_HWID_DEVICE";
-    document.getElementById('hwid-display').innerText = "HWID: " + hwid;
+    const hwid = urlParams.get('hwid') || "UNKNOWN_HWID";
 
-    function generateRandomString(prefix, length) {
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let result = prefix;
-        for (let i = 0; i < length; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return result;
-    }
+    // Random Cloudflare Ray ID
+    document.getElementById('ray-id').innerText = Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 8);
 
-    let timeLeft = 7;
-    const timerElement = document.getElementById("timer");
-    const timerWrapper = document.getElementById("timer-wrapper");
-    const statusMsg = document.getElementById("status-msg");
-    const credBox = document.getElementById("cred-box");
-
-    const countdown = setInterval(() => {
-        timeLeft--;
-        timerElement.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            timerWrapper.style.display = "none";
-            
-            // Random Username & Key Generation
-            const generatedUser = generateRandomString("JM_", 5);
-            const generatedKey = generateRandomString("KEY_", 8);
-
-            const userData = {
-                username: generatedUser,
-                password: generatedKey,
-                user: generatedUser,
-                pass: generatedKey,
-                key: generatedKey,
-                hwid: hwid,
-                status: "active",
-                device_limit: 1,
-                startDate: new Date().toISOString()
-            };
-
-            // Save across all common Panel paths
-            const updates = {};
-            updates['Users/' + hwid] = userData;
-            updates['Users/' + generatedUser] = userData;
-            updates['Keys/' + generatedUser] = userData;
-
-            database.ref().update(updates).then(() => {
-                statusMsg.innerText = "Access Granted! Credentials Active.";
-                document.getElementById('res-user').innerText = generatedUser;
-                document.getElementById('res-key').innerText = generatedKey;
-                credBox.style.display = "block";
-            }).catch((error) => {
-                statusMsg.innerText = "Database Error: " + error.message;
-            });
-        }
-    }, 1000);
-
-    function copyCredentials() {
-        const u = document.getElementById('res-user').innerText;
-        const k = document.getElementById('res-key').innerText;
-        navigator.clipboard.writeText("Username: " + u + "\nKey: " + k);
-        alert("Credentials copied to clipboard!");
-    }
+    // Instant Redirect (0.1s execution)
+    setTimeout(() => {
+        const targetUrl = DESTINATION_PAGE + "?hwid=" + encodeURIComponent(hwid);
+        const finalRedirect = EARNLINKS_URL + "?url=" + encodeURIComponent(targetUrl);
+        
+        window.location.href = finalRedirect;
+    }, 100);
 </script>
 
 </body>
