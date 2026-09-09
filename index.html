@@ -1,39 +1,57 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP Access Key Generator</title>
+    <title>Welcome to Jerry Mods</title>
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .card { background: #161b22; padding: 28px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); width: 100%; max-width: 380px; text-align: center; border: 1px solid #30363d; }
-        h2 { font-size: 22px; color: #58a6ff; margin-bottom: 8px; font-weight: 700; }
-        p { font-size: 13px; color: #8b949e; margin-bottom: 18px; }
-        .hwid-badge { display: inline-block; background: #21262d; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #79c0ff; border: 1px solid #30363d; margin-bottom: 15px; word-break: break-all; }
-        .timer-box { font-size: 40px; font-weight: bold; color: #ff7b72; margin: 15px 0; background: #0d1117; padding: 12px; border-radius: 12px; border: 1px solid #21262d; }
-        .key-container { display: none; margin-top: 15px; background: #0d1117; padding: 15px; border-radius: 10px; border: 1px dashed #3fb950; }
-        .key-text { font-size: 20px; font-weight: bold; color: #3fb950; letter-spacing: 1.5px; margin: 8px 0; word-break: break-all; }
-        .btn { background: #238636; color: #ffffff; font-weight: bold; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 14px; margin-top: 8px; transition: 0.2s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background: #090d16; color: #e6edf3; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { background: #111726; padding: 32px 24px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); width: 100%; max-width: 400px; text-align: center; border: 1px solid #1f293d; }
+        .brand-title { font-size: 24px; font-weight: 800; color: #58a6ff; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: #8b949e; margin-bottom: 20px; font-weight: 500; }
+        .badge-box { display: inline-flex; align-items: center; background: #161f30; padding: 8px 14px; border-radius: 30px; font-size: 12px; color: #79c0ff; border: 1px solid #28354d; margin-bottom: 20px; font-family: monospace; word-break: break-all; }
+        .timer-container { background: #0b0f19; padding: 20px; border-radius: 14px; border: 1px solid #1f2a3e; margin-bottom: 15px; }
+        .timer-val { font-size: 42px; font-weight: 900; color: #ff7b72; line-height: 1; }
+        .timer-label { font-size: 11px; text-transform: uppercase; color: #8b949e; margin-top: 6px; letter-spacing: 1px; }
+        .credentials-box { display: none; background: #0b0f19; padding: 18px; border-radius: 14px; border: 1px solid #238636; text-align: left; margin-top: 15px; }
+        .field-group { margin-bottom: 14px; }
+        .field-label { font-size: 11px; text-transform: uppercase; color: #8b949e; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 4px; }
+        .field-value { color: #3fb950; font-weight: bold; font-family: monospace; font-size: 18px; word-break: break-all; }
+        .btn { display: block; width: 100%; padding: 14px; background: #238636; color: #ffffff; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s ease; letter-spacing: 0.5px; margin-top: 10px; }
         .btn:hover { background: #2ea043; }
+        .btn:active { transform: scale(0.98); }
+        .status-text { font-size: 13px; color: #a5d6ff; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>Jerry Mods VIP Access</h2>
-    <div class="hwid-badge" id="hwid-display">Device ID Fetching...</div>
-    <p id="status-msg">Access verify ho raha hai, kripya 7 seconds wait karein...</p>
+    <div class="brand-title">WELCOME TO JERRY MODS</div>
+    <div class="subtitle">Secure VIP Key & Account Generation</div>
 
-    <div class="timer-box" id="timer">7</div>
+    <div class="badge-box" id="hwid-display">DEVICE HWID: FETCHING...</div>
+    
+    <div id="status-msg" class="status-text">Generating your access credentials, please wait...</div>
 
-    <div class="key-container" id="key-box">
-        <p style="color: #8b949e; font-size: 12px;">Aapka Key Generate Ho Gaya Hai:</p>
-        <div class="key-text" id="generated-key">XXXX-XXXX</div>
-        <button class="btn" onclick="copyKey()">COPY KEY & LOGIN</button>
+    <div class="timer-container" id="timer-wrapper">
+        <div class="timer-val" id="timer">7</div>
+        <div class="timer-label">Seconds Remaining</div>
+    </div>
+
+    <div class="credentials-box" id="cred-box">
+        <div class="field-group">
+            <div class="field-label">USERNAME</div>
+            <div class="field-value" id="res-user">---</div>
+        </div>
+        <div class="field-group">
+            <div class="field-label">KEY / PASSWORD</div>
+            <div class="field-value" id="res-key">---</div>
+        </div>
+        <button class="btn" onclick="copyCredentials()">COPY ACCESS DETAILS</button>
     </div>
 </div>
 
@@ -51,16 +69,25 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Fetch HWID from URL (?hwid=DEVICE_ID)
+    // Get Device HWID from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const hwid = urlParams.get('hwid') || "DEMO_HWID_123";
+    const hwid = urlParams.get('hwid') || "DEMO_HWID_DEVICE";
     document.getElementById('hwid-display').innerText = "HWID: " + hwid;
+
+    function generateRandomString(prefix, length) {
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = prefix;
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
 
     let timeLeft = 7;
     const timerElement = document.getElementById("timer");
-    const keyBox = document.getElementById("key-box");
+    const timerWrapper = document.getElementById("timer-wrapper");
     const statusMsg = document.getElementById("status-msg");
-    const generatedKeyElement = document.getElementById("generated-key");
+    const credBox = document.getElementById("cred-box");
 
     const countdown = setInterval(() => {
         timeLeft--;
@@ -68,31 +95,36 @@
 
         if (timeLeft <= 0) {
             clearInterval(countdown);
-            timerElement.style.display = "none";
+            timerWrapper.style.display = "none";
             
-            // Generate Random Key
-            const randomKey = "JM-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-            
-            // Save to Firebase (Database Path: Users/HWID)
+            // Random Username & Key Generation
+            const generatedUser = generateRandomString("JM_", 5);
+            const generatedKey = generateRandomString("KEY_", 8);
+
+            // Database Registration (HWID Bound)
             database.ref('Users/' + hwid).set({
+                username: generatedUser,
+                password: generatedKey,
+                key: generatedKey,
+                hwid: hwid,
                 status: "active",
-                key: randomKey,
-                activatedAt: new Date().toLocaleString()
+                device_limit: 1
             }).then(() => {
-                statusMsg.innerText = "Activation Successful! Is key ko copy karke app mein dalo.";
-                generatedKeyElement.innerText = randomKey;
-                keyBox.style.display = "block";
-            }).catch(err => {
-                statusMsg.innerText = "Database Error! Kripya Firebase rules check karein.";
-                console.error(err);
+                statusMsg.innerText = "Access Granted! Credentials Active.";
+                document.getElementById('res-user').innerText = generatedUser;
+                document.getElementById('res-key').innerText = generatedKey;
+                credBox.style.display = "block";
+            }).catch((error) => {
+                statusMsg.innerText = "Error: " + error.message;
             });
         }
     }, 1000);
 
-    function copyKey() {
-        const keyText = document.getElementById("generated-key").innerText;
-        navigator.clipboard.writeText(keyText);
-        alert("Key Copied: " + keyText);
+    function copyCredentials() {
+        const u = document.getElementById('res-user').innerText;
+        const k = document.getElementById('res-key').innerText;
+        navigator.clipboard.writeText("Username: " + u + "\nKey: " + k);
+        alert("Credentials copied to clipboard!");
     }
 </script>
 
